@@ -19,13 +19,6 @@ var modbusData = {};
 // WAN IP Reg 2                             140
 ////////////////////////////////////////////////////////////////////////////////
 
-/////////// Custom Modbus Register Addresses ///////////////////////////////////
-// PIN 1 Runtime Accumulator                1025
-// PIN 2 Runtime Accumulator                1027
-// PIN 3 Runtime Accumulator                1029
-// PIN 4 Runtime Accumulator                1031
-////////////////////////////////////////////////////////////////////////////////
-
 const combine2Registers = (reg1, reg2) => {
  return parseInt(reg1)*65536 + parseInt(reg2);
 }
@@ -33,31 +26,11 @@ const combine2Registers = (reg1, reg2) => {
 async function getModbusData()
 {
 
-  await modbus.getModbusData(1025, 8)
-    .then(function(res0){
-      if(res0 != null){
-        modbusData["PIN 1 Runtime Accumulator"] = combine2Registers(res0[0], res0[1]);
-        modbusData["PIN 2 Runtime Accumulator"] = combine2Registers(res0[2], res0[3]);
-        modbusData["PIN 3 Runtime Accumulator"] = combine2Registers(res0[4], res0[5]);
-        modbusData["PIN 4 Runtime Accumulator"] = combine2Registers(res0[6], res0[7]);
-      }
-  });
-
   await modbus.getModbusData(324, 4)
       .then(function(res1){
         if(res1 != null){ 
           modbusData["PIN 3 status"] = res1[2];
-          if(res1[2] === 1 && typeof modbusData["PIN 3 Runtime Accumulator"] !== "undefined"){ //if input 3 is 1
-            var newVal = parseInt(modbusData["PIN 3 Runtime Accumulator"]) + 1;
-            modbus.writeModbusData(1029, parseInt(newVal/65536));
-            modbus.writeModbusData(1030, newVal%65536);
-          }
           modbusData["PIN 4 status"] = res1[3];
-          if(res1[3] === 1 && typeof modbusData["PIN 4 Runtime Accumulator"] !== "undefined"){ //if input 4 is 1
-            var newVal = parseInt(modbusData["PIN 4 Runtime Accumulator"]) + 1;
-            modbus.writeModbusData(1031, parseInt(newVal/65536));
-            modbus.writeModbusData(1032, newVal%65536);
-          }
           modbusData["PIN 3 direction"] = res1[0];
           modbusData["PIN 4 direction"] = res1[1];
         }
@@ -70,17 +43,7 @@ async function getModbusData()
         modbusData["relay 2"] = res2[1];
         modbusData["Isolated input"] = res2[2];
         modbusData["PIN 1 input status"] = res2[4];
-        if(res2[4] === 1 && typeof modbusData["PIN 1 Runtime Accumulator"] !== "undefined"){ //if input 1 is 1
-          var newVal = parseInt(modbusData["PIN 1 Runtime Accumulator"]) + 1;
-          modbus.writeModbusData(1025, parseInt(newVal/65536));
-          modbus.writeModbusData(1026, newVal%65536);
-        }
         modbusData["PIN 2 input status"] = res2[5];
-        if(res2[5] === 1 && typeof modbusData["PIN 2 Runtime Accumulator"] !== "undefined"){ //if input 2 is 1
-          var newVal = parseInt(modbusData["PIN 2 Runtime Accumulator"]) + 1;
-          modbus.writeModbusData(1027, parseInt(newVal/65536));
-          modbus.writeModbusData(1028, newVal%65536);
-        }
         modbusData["PIN 1 (Dry/Wet) status"] = res2[6];
         modbusData["PIN 2 (Dry/Wet) status"] = res2[7];
         console.log(modbusData);
