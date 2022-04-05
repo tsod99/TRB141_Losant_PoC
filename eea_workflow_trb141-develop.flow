@@ -1,0 +1,372 @@
+{
+  "_exportDate": "2022-04-05T15:22:18.858Z",
+  "_type": "flow",
+  "applicationId": "62329e73a4d9b4159b90bfff",
+  "customNodeVersions": [
+  ],
+  "customNodes": [
+  ],
+  "description": "",
+  "enabled": true,
+  "flowClass": "embedded",
+  "globals": [
+  ],
+  "id": "624c455ca4d9b4159b9147a7",
+  "minimumAgentVersion": "0.0.0",
+  "name": "EEA_Workflow_TRB141",
+  "nodes": [
+    {
+      "config": {
+        "message": "",
+        "property": ""
+      },
+      "id": "BeyPogmoab",
+      "meta": {
+        "category": "output",
+        "description": "",
+        "label": "Debug",
+        "name": "debug",
+        "x": 80,
+        "y": 680
+      },
+      "outputIds": [
+      ],
+      "type": "DebugNode"
+    },
+    {
+      "config": {
+        "functionName": "read_modbus",
+        "inputs": [
+        ],
+        "outputs": [
+        ],
+        "resultPath": "data.read_modbus_result"
+      },
+      "id": "Sljz7mfljP",
+      "meta": {
+        "category": "data",
+        "description": "",
+        "label": "Read modbus",
+        "name": "registered-function",
+        "x": 100,
+        "y": 200
+      },
+      "outputIds": [
+        [
+          "8O7OgT6Eot"
+        ]
+      ],
+      "type": "RegisteredFunctionNode"
+    },
+    {
+      "config": {
+        "delay": "1"
+      },
+      "id": "8O7OgT6Eot",
+      "meta": {
+        "category": "logic",
+        "description": "",
+        "label": "Delay",
+        "name": "delay",
+        "x": 100,
+        "y": 280
+      },
+      "outputIds": [
+        [
+          "33JYvavUEY"
+        ]
+      ],
+      "type": "DelayNode"
+    },
+    {
+      "config": {
+        "expression": "{{data.read_modbus_result}}==0"
+      },
+      "id": "33JYvavUEY",
+      "meta": {
+        "category": "logic",
+        "description": "",
+        "label": "Check read modbus status",
+        "name": "conditional",
+        "x": 100,
+        "y": 360
+      },
+      "outputIds": [
+        [
+          "BeyPogmoab"
+        ],
+        [
+          "7SstPwKpp_"
+        ]
+      ],
+      "type": "ConditionalNode"
+    },
+    {
+      "config": {
+        "functionName": "send_modbus",
+        "inputs": [
+        ],
+        "outputs": [
+          {
+            "destinationPath": "working.modbus_output",
+            "maxLength": "500",
+            "type": "json"
+          }
+        ],
+        "resultPath": "data.send_modbus_result"
+      },
+      "id": "7SstPwKpp_",
+      "meta": {
+        "category": "data",
+        "description": "",
+        "label": "Send modbus",
+        "name": "registered-function",
+        "x": 200,
+        "y": 460
+      },
+      "outputIds": [
+        [
+          "uTDWSrcOqI"
+        ]
+      ],
+      "type": "RegisteredFunctionNode"
+    },
+    {
+      "config": {
+        "expression": "{{data.send_modbus_result}}==0"
+      },
+      "id": "uTDWSrcOqI",
+      "meta": {
+        "category": "logic",
+        "description": "",
+        "label": "Check send modbus status",
+        "name": "conditional",
+        "x": 200,
+        "y": 560
+      },
+      "outputIds": [
+        [
+          "BeyPogmoab"
+        ],
+        [
+          "BeyPogmoab"
+        ]
+      ],
+      "type": "ConditionalNode"
+    },
+    {
+      "config": {
+        "functionName": "toggle_relay",
+        "inputs": [
+          {
+            "type": "i8",
+            "valueTemplate": "1"
+          }
+        ],
+        "outputs": [
+        ],
+        "resultPath": "data.toggle_relay1_status"
+      },
+      "id": "aOTjw8Y3zL",
+      "meta": {
+        "category": "data",
+        "description": "",
+        "label": "Toggle relay 1",
+        "name": "registered-function",
+        "x": 440,
+        "y": 220
+      },
+      "outputIds": [
+        [
+          "7MCfd3cjp4"
+        ]
+      ],
+      "type": "RegisteredFunctionNode"
+    },
+    {
+      "config": {
+        "message": "",
+        "property": ""
+      },
+      "id": "7MCfd3cjp4",
+      "meta": {
+        "category": "output",
+        "description": "",
+        "label": "Debug",
+        "name": "debug",
+        "x": 440,
+        "y": 320
+      },
+      "outputIds": [
+      ],
+      "type": "DebugNode"
+    },
+    {
+      "config": {
+      },
+      "id": "lZO3Ju0KSt",
+      "meta": {
+        "annotationText": "This flow causes the device to transmit the input/output status of the TRB141 via Modbus.",
+        "category": "annotation",
+        "height": 100,
+        "label": "Note",
+        "name": "note",
+        "width": 260,
+        "x": 60,
+        "y": 0
+      },
+      "outputIds": [
+      ],
+      "type": "AnnotationNode"
+    },
+    {
+      "config": {
+        "functionName": "toggle_relay",
+        "inputs": [
+          {
+            "type": "i8",
+            "valueTemplate": "2"
+          }
+        ],
+        "outputs": [
+        ],
+        "resultPath": "data.toggle_relay2_status"
+      },
+      "id": "MQELzk8kbZ",
+      "meta": {
+        "category": "data",
+        "description": "",
+        "label": "Toggle relay 2",
+        "name": "registered-function",
+        "x": 680,
+        "y": 220
+      },
+      "outputIds": [
+        [
+          "muQxZgZcqP"
+        ]
+      ],
+      "type": "RegisteredFunctionNode"
+    },
+    {
+      "config": {
+        "message": "",
+        "property": ""
+      },
+      "id": "muQxZgZcqP",
+      "meta": {
+        "category": "output",
+        "description": "",
+        "label": "Debug",
+        "name": "debug",
+        "x": 680,
+        "y": 320
+      },
+      "outputIds": [
+      ],
+      "type": "DebugNode"
+    },
+    {
+      "config": {
+      },
+      "id": "AuumZUiJIz",
+      "meta": {
+        "annotationText": "You can toggle the relay 1 using this virtual button. ",
+        "category": "annotation",
+        "height": 100,
+        "label": "Note",
+        "name": "note",
+        "width": 260,
+        "x": 380,
+        "y": 0
+      },
+      "outputIds": [
+      ],
+      "type": "AnnotationNode"
+    },
+    {
+      "config": {
+      },
+      "id": "NLAZ0v7k16",
+      "meta": {
+        "annotationText": "You can toggle the relay 2 using this virtual button. ",
+        "category": "annotation",
+        "height": 100,
+        "label": "Note",
+        "name": "note",
+        "width": 260,
+        "x": 660,
+        "y": 0
+      },
+      "outputIds": [
+      ],
+      "type": "AnnotationNode"
+    }
+  ],
+  "triggers": [
+    {
+      "config": {
+        "seconds": 10
+      },
+      "key": "Qg82ksHM6FKl8wIvBrLZn",
+      "meta": {
+        "category": "trigger",
+        "description": "",
+        "label": "Every 10s",
+        "name": "timer",
+        "timerTypeSelect": "seconds",
+        "uiId": "KvoeLUMd53",
+        "x": 100,
+        "y": 120
+      },
+      "outputIds": [
+        [
+          "Sljz7mfljP"
+        ]
+      ],
+      "type": "timer"
+    },
+    {
+      "config": {
+      },
+      "key": "624c455ca4d9b4159b9147a7-8Rqk0oiJUm7_UA8QEs4HB",
+      "meta": {
+        "category": "trigger",
+        "description": "",
+        "label": "Trigger",
+        "name": "virtualButton",
+        "payload": "",
+        "uiId": "624c455ca4d9b4159b9147a7-8Rqk0oiJUm7_UA8QEs4HB",
+        "x": 440,
+        "y": 120
+      },
+      "outputIds": [
+        [
+          "aOTjw8Y3zL"
+        ]
+      ],
+      "type": "virtualButton"
+    },
+    {
+      "config": {
+      },
+      "key": "624c455ca4d9b4159b9147a7-46Asr91l_2",
+      "meta": {
+        "category": "trigger",
+        "description": "",
+        "label": "Trigger",
+        "name": "virtualButton",
+        "payload": "",
+        "uiId": "624c455ca4d9b4159b9147a7-46Asr91l_2",
+        "x": 680,
+        "y": 120
+      },
+      "outputIds": [
+        [
+          "MQELzk8kbZ"
+        ]
+      ],
+      "type": "virtualButton"
+    }
+  ]
+}
