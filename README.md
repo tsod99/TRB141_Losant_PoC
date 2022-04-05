@@ -2,7 +2,7 @@
 
 The goal of this project is to implement the interaction between the Teltonika TRB141 device and the Losant IoT platform through the embedded edge agent(EEA) workflow.
 
------------------------------------------------- A step-by-step guide to running this project ------------------------------------------------
+-------------------------------------- A step-by-step guide to running this project -------------------------------------------
 
 1. You need to install the NodeJS packags on your device. Please see "Node_packages" folder.
 2. You need to download the NodeJS project and execute it on your device. Please see "Project" folder.
