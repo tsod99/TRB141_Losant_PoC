@@ -20,6 +20,7 @@ So, you need to copy this file to /etc/init.d folder, and give the executable pe
 Then this service will start automatically after reboot of the device.
 
 $ chmod +x /etc/init.d/eea
+
 $ /etc/init.d/eea start
 
 After executing the application, you need to deploy the EEA(embedded edge agent) workflow into the device from the Losant server, then the device will work 
