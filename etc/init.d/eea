@@ -1,0 +1,24 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+STOP=15
+
+boot() {
+        echo boot
+        sleep 60
+        node --experimental-wasm-bigint /storage/TRB141_Losant_PoC/Project/bin/cli.js &
+}
+start() {
+        echo start
+        node --experimental-wasm-bigint /storage/TRB141_Losant_PoC/Project/bin/cli.js &
+}
+stop() {
+        echo stop
+        killall node
+}
+restart() {
+        echo restart
+        killall node
+        sleep 1
+        node --experimental-wasm-bigint /storage/TRB141_Losant_PoC/Project/bin/cli.js &
+}
