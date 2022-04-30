@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 const buildEEAMqttWrapper = require('../src/eea-mqtt-wrapper');
-const registeredFunctions = require('../src/eea-registered-functions');
-const modbus = require('../src/eea-modbus');
+const { getDataUpdated, getMainData, getIOData, resetDataUpdated, registeredFunctions} = require('../src/eea-registered-functions');
 
 const DEVICE_ID = process.env.DEVICE_ID;
 const ACCESS_KEY = process.env.ACCESS_KEY;
@@ -27,14 +26,22 @@ const start = async () => {
     process.exit(0);
   };
 
-  // Example calling direct trigger
-  setTimeout(() => {
-    mqttWrapper.eeaWrapper()?.directTrigger('direct1', '{ "a": "b" }');
-  }, 15000);
+  // Monitor the data changed
+  const monitorDataChanged = () => {
+    let data_updated = getDataUpdated();
+    if (data_updated > 0) {
+      if(data_updated === 1) {
+        mqttWrapper.eeaWrapper()?.directTrigger('sendIOData', JSON.stringify(getIOData()));
+      }
+      else if(data_updated === 2) {
+        let custom_data = {"custom_data":getMainData()};
+        mqttWrapper.eeaWrapper()?.directTrigger('sendCustomData', JSON.stringify(custom_data));
+      }
+      resetDataUpdated();
+    }
+  };
 
-  setTimeout(() => {
-    mqttWrapper.eeaWrapper()?.directTrigger('direct2', '{ "a": "b" }');
-  }, 20000);
+  setInterval(monitorDataChanged, 1000);
 
   process.on('SIGINT', shutdown);
   process.on('SIGTERM', shutdown);
